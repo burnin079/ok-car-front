@@ -1,0 +1,22 @@
+{
+  "name": "ok-car-front",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/burnin079/ok-car-front.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/burnin079/ok-car-front/issues"
+  },
+  "homepage": "https://github.com/burnin079/ok-car-front#readme",
+  "dependencies": {
+    "uview-ui": "^2.0.35"
+  }
+}
