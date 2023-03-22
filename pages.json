@@ -1,18 +1,21 @@
 {
   "easycom": {
-    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+    "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue",
+    "^w-(.*)": "@/components/w-$1/w-$1.vue"
   },
   "pages": [
     {
-      "path": "pages/login/login",
+      "path": "pages/index/index",
       "style": {
-        "navigationStyle": "custom"
+        "navigationBarTitleText": "uni-app",
+        "enablePullDownRefresh": false
       }
     },
     {
-      "path": "pages/index/index",
+      "path": "pages/login/login",
       "style": {
-        "navigationBarTitleText": "uni-app"
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false
       }
     }
   ],
@@ -22,5 +25,30 @@
     "navigationBarBackgroundColor": "#F8F8F8",
     "backgroundColor": "#F8F8F8"
   },
-  "uniIdRouter": {}
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#4876ff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页",
+        "iconPath": "",
+        "selectedIconPath": ""
+      },
+      {
+        "pagePath": "pages/collect/collect",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "收藏"
+      },
+      {
+        "pagePath": "pages/user/user",
+        "iconPath": "",
+        "selectedIconPath": "",
+        "text": "我的"
+      }
+    ]
+  }
 }
