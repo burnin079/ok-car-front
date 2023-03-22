@@ -30,24 +30,40 @@
     "selectedColor": "#4876ff",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
+    "iconfontSrc": "static/icon/iconfont.ttf",
     "list": [
       {
         "pagePath": "pages/index/index",
         "text": "首页",
-        "iconPath": "",
-        "selectedIconPath": ""
+        "iconfont": {
+          "text": "\ue603",
+          "selectedText": "\ue603",
+          "fontSize": "18px",
+          "color": "#86919d",
+          "selectedColor": "#0375e5"
+        }
       },
       {
         "pagePath": "pages/collect/collect",
-        "iconPath": "",
-        "selectedIconPath": "",
-        "text": "收藏"
+        "text": "收藏",
+        "iconfont": {
+          "text": "\ue650",
+          "selectedText": "\ue650",
+          "fontSize": "18px",
+          "color": "#86919d",
+          "selectedColor": "#0375e5"
+        }
       },
       {
         "pagePath": "pages/user/user",
-        "iconPath": "",
-        "selectedIconPath": "",
-        "text": "我的"
+        "text": "我的",
+        "iconfont": {
+          "text": "\ue600",
+          "selectedText": "\ue600",
+          "fontSize": "18px",
+          "color": "#86919d",
+          "selectedColor": "#0375e5"
+        }
       }
     ]
   }

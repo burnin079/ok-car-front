@@ -15,7 +15,7 @@
       </view>
       <view class="login-box">
         <image class="login-box__logo mgb-10" src="../../static/images/login/logo.png" mode="" />
-        <h2 class="mgb-30">欢迎来到以可</h2>
+        <h2 class="mgb-140">欢迎来到以可</h2>
         <view class="login-form">
           <u--form class="mgb-20" labelPosition="left" :model="form" ref="form">
             <u-form-item prop="telephone" borderBottom>
