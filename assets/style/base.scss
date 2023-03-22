@@ -1,0 +1,17 @@
+page {
+}
+
+@mixin flex($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+.mgb-10 {
+  margin-bottom: 10rpx;
+}
+.mgb-20 {
+  margin-bottom: 20rpx;
+}
+.mgb-30 {
+  margin-bottom: 30rpx;
+}

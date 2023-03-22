@@ -43,7 +43,14 @@
             /* ios打包配置 */
             "ios" : {},
             /* SDK配置 */
-            "sdkConfigs" : {}
+            "sdkConfigs" : {},
+            "splashscreen" : {
+                "androidStyle" : "default",
+                "iosStyle" : "storyboard",
+                "ios" : {
+                    "storyboard" : "C:/Users/123/Downloads/CustomStoryboard/CustomStoryboard.zip"
+                }
+            }
         }
     },
     /* 快应用特有相关 */
