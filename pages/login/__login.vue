@@ -13,10 +13,10 @@
           id="videoRef"
         ></video>
       </view>
-      <view class="login-box">
+      <cover-view class="login-box">
         <image class="login-box__logo mgb-10" src="../../static/images/login/logo.png" mode="" />
         <h2 class="mgb-140">欢迎来到以可</h2>
-        <view class="login-form">
+        <cover-view class="login-form">
           <u--form class="mgb-20" labelPosition="left" :model="form" ref="form">
             <u-form-item prop="telephone" borderBottom>
               <u-input
@@ -59,15 +59,15 @@
                     :text="tips"
                     plain
                     shape="circle"
-                    :custom-style="{ background: 'rgba(0, 0, 0, 0)', color: '#fff' }"
+                    :customStyle="{ background: 'rgba(0, 0, 0, 0)', color: '#fff' }"
                   ></u-button>
                 </template>
               </u-input>
             </u-form-item>
           </u--form>
           <u-button shape="circle" text="登录/注册" @click="login"></u-button>
-        </view>
-      </view>
+        </cover-view>
+      </cover-view>
       <view class="login-private">
         <u-checkbox-group placement="column" @change="checkboxChange">
           <u-checkbox shape="circle" name="1" activeColor="white" iconColor="grey"> </u-checkbox>
@@ -154,8 +154,9 @@ $font-color: #fff;
   }
 
   .login-box {
+    position: relative;
+    z-index: 10001;
     width: 80%;
-    z-index: 10010;
     color: $font-color;
 
     .login-box__logo {
@@ -169,6 +170,7 @@ $font-color: #fff;
     @include flex;
     position: absolute;
     bottom: 5%;
+    z-index: 10001;
   }
 }
 </style>

@@ -5,6 +5,13 @@
   },
   "pages": [
     {
+      "path": "pages/login/login",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "uni-app",
@@ -12,9 +19,16 @@
       }
     },
     {
-      "path": "pages/login/login",
+      "path": "pages/collect/collect",
       "style": {
-        "navigationStyle": "custom",
+        "navigationBarTitleText": "uni-app",
+        "enablePullDownRefresh": false
+      }
+    },
+    {
+      "path": "pages/user/user",
+      "style": {
+        "navigationBarTitleText": "uni-app",
         "enablePullDownRefresh": false
       }
     }
