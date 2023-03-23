@@ -2,37 +2,39 @@
 	<w-page>
 		<view class="login" :style="{width:w,height:h}">
 			<view class="login-bg" :style="{width:w,height:h}">
-				<video :style="{width:w,height:h}" src="/static/images/login/bg-video.mp4" :autoplay="true" :loop="true" :muted="true"
-					object-fit="cover" :controls="false" class="login-video" id="videoRef"></video>
+				<video :style="{width:w,height:h}" src="/static/images/login/bg-video.mp4" :autoplay="true" :loop="true"
+					:muted="true" object-fit="cover" :controls="false" class="login-video" id="videoRef"></video>
 			</view>
-			<cover-view class="login-box">
+			<view class="login-box">
 				<image class="login-box__logo mgb-10" src="../../static/images/login/logo.png" mode="" />
-				<h2 class="mgb-140">欢迎来到以可</h2>
-				<cover-view class="login-form">
+				<view class="mgb-140">
+					<u--text color='#fff' size='32' text='欢迎来到以可'></u--text>
+				</view>
+				<view class="login-form">
 					<u--form class="mgb-20" labelPosition="left" :model="form" ref="form">
-						<u-form-item prop="telephone" borderBottom>
-							<u-input v-model="form.telephone" border="none" color="#fff" fontSize="20"
+						<u-form-item prop="telphone" borderBottom>
+							<u--input v-model="form.telphone" border="none" color="#fff" fontSize="20"
 								placeholder="请输入电话" placeholderStyle="color:#fff;">
 								<template slot="prefix">
 									<u--text :text="nationalCode" size="20" color="#fff" suffixIcon="arrow-down"
 										iconStyle="font-size: 20px;color:#fff;padding: 0 20rpx"></u--text>
 								</template>
-							</u-input>
+							</u--input>
 						</u-form-item>
 						<u-form-item prop="code" borderBottom>
-							<u-input v-model="form.code" border="none" color="#fff" fontSize="20" placeholder="请输入验证码"
+							<u--input v-model="form.code" border="none" color="#fff" fontSize="20" placeholder="请输入验证码"
 								placeholderStyle="color:#fff;">
 								<template slot="suffix">
 									<u-code ref="uCode" seconds="60" changeText="X秒重新获取" @change="codeChange"></u-code>
 									<u-button @click="getCode" :text="tips" plain shape="circle"
-										:customStyle="{ background: 'rgba(0, 0, 0, 0)', color: '#fff' }"></u-button>
+										:customStyle="{ background: 'rgba(0, 0, 0, 0)' }" color='#fff'></u-button>
 								</template>
-							</u-input>
+							</u--input>
 						</u-form-item>
 					</u--form>
 					<u-button shape="circle" text="登录/注册" @click="login"></u-button>
-				</cover-view>
-			</cover-view>
+				</view>
+			</view>
 			<view class="login-private">
 				<u-checkbox-group placement="column" @change="checkboxChange">
 					<u-checkbox shape="circle" name="1" activeColor="white" iconColor="grey"> </u-checkbox>
@@ -48,7 +50,7 @@
 		data() {
 			return {
 				form: {
-					telephone: '',
+					telphone: '',
 					code: ''
 				},
 				nationalCode: '+86',
@@ -57,6 +59,7 @@
 					['+86', '+96', '+76']
 				],
 				tips: '',
+				sendType: false,
 				checkboxValue: [],
 				w: '',
 				h: '',
@@ -71,6 +74,7 @@
 			// 获取验证码
 			getCode() {
 				this.$refs.uCode.start()
+				this.sendType = true
 			},
 			codeChange(text) {
 				this.tips = text
@@ -83,10 +87,31 @@
 			},
 			// 登录
 			login() {
-				if (!this.form.telephone && !this.form.code) {
+				console.log(this.sendType);
+				if (!this.form.telphone || !this.form.code) {
 					return this._showToast('请输入电话/验证码')
 				}
+				if (!this.sendType) return this._showToast('请先发送验证码')
 				if (!this.checkboxValue.length) return this._showToast('请先勾选用户协议')
+				if(!uni.$u.test.mobile(this.form.telphone)) return this._showToast('请输入正确手机号码')
+				
+				uni.$u.route({url: 'pages/index/index',type: 'tab'})
+				uni.setStorageSync('token','123')
+				
+			},
+			_showToast(title, callback, time) {
+				const second = time || 2000
+				uni.showToast({
+					icon: 'none',
+					title: title,
+					duration: second,
+					success: () => {
+						callback &&
+							setTimeout(() => {
+								callback()
+							}, second)
+					}
+				})
 			}
 		},
 		onShow() {
@@ -95,7 +120,10 @@
 				this.VideoContext = uni.createVideoContext('videoRef')
 				this.VideoContext.play()
 			})
-			const { windowWidth, windowHeight } = uni.getSystemInfoSync();
+			const {
+				windowWidth,
+				windowHeight
+			} = uni.getSystemInfoSync();
 			this.w = windowWidth
 			this.h = windowHeight
 		}
@@ -109,22 +137,20 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
-	
+
 
 		.login-bg {
 			position: absolute;
-		
 
 			.login-video {
 				position: absolute;
-		
 			}
 		}
 
 		.login-box {
 			position: relative;
 			z-index: 10001;
-			width: 300px;
+			width: 600rpx;
 			color: #fff;
 
 			.login-box__logo {
@@ -135,9 +161,10 @@
 		}
 
 		.login-private {
+			display: flex;
+			flex-direction: row;
 			position: absolute;
-			bottom: 100px;
-			z-index: 10001;
+			bottom: 100rpx;
 		}
 	}
 </style>
