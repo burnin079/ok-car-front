@@ -15,7 +15,7 @@
 export default {
   methods: {
     systemUpdate() {
-      console.log(123321)
+      plus.runtime.openURL('http://www.baidu.com')
     }
   }
 }

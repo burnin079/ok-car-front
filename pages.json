@@ -14,7 +14,7 @@
     {
       "path": "pages/index/index",
       "style": {
-        "navigationBarTitleText": "以可汽车",
+        "navigationStyle": "custom",
         "enablePullDownRefresh": false
       }
     },
