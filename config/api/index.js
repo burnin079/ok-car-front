@@ -26,5 +26,7 @@ export default {
   // 获取收藏列表
   getCollectList: (params) => request.get('/collect/list', params),
   // 退出登录
-  logout: (params) => request.get('/user/logout', params)
+  logout: (params) => request.get('/user/logout', params),
+  // app设置
+  getAppConfig: (params) => request.get('/app/config', params)
 }

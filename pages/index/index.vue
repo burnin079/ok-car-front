@@ -150,13 +150,13 @@ export default {
         'pause-circle',
         'wifi',
         'email',
-        'list',
+        'list'
       ],
       show: false,
       blockWidth: '',
       pageCount: 0,
       isCollect: 0,
-      collectBus: {},
+      collectBus: {}
     }
   },
   methods: {
@@ -229,13 +229,13 @@ export default {
       const { brandId, id, modelId } = this.activeColor
       if (this.collectBus[id]) {
         const result = await Api.cancelCollect({
-          colorId: id,
+          colorId: id
         })
       } else {
         const result = await Api.addCollect({
           brandId,
           modelId,
-          colorId: id,
+          colorId: id
         })
       }
       console.log(this.collectBus[id])
@@ -246,7 +246,7 @@ export default {
     async search() {
       const result = await Api.getColorList({
         modelId: this.currentModel.id,
-        search: this.searchValue,
+        search: this.searchValue
       })
       const total = Math.ceil(result.length / this.pageCount)
       const _temp = []
@@ -260,9 +260,13 @@ export default {
     async clipboard() {
       uni.setClipboardData({
         data: '123',
-        success: function () {},
+        success: function () {}
       })
     },
+    async getAppConfig() {
+      const result = await Api.getAppConfig()
+      uni.setStorageSync('appConfig', JSON.stringify(result))
+    }
   },
   onShow() {
     const { statusBarHeight, screenWidth, windowWidth } = uni.$u.sys()
@@ -289,6 +293,9 @@ export default {
     }, 1000) //如果是页面初始化调用时，需要延时一下
     // #endif
   },
+  onLoad() {
+    this.getAppConfig()
+  }
 }
 </script>
 <style lang="scss">
