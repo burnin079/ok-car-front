@@ -61,7 +61,7 @@
           <view
             v-for="(item, index) in hotList"
             :key="index"
-            :class="[item.color === activeColor.color ? 'active-color' : 'default-color']"
+            :class="[item.id === activeColor.id ? 'active-color' : 'default-color']"
             :style="{ backgroundColor: item.color }"
             class="brand-carcolor-hostlist brand-carcolor-block"
             @click="clickHotColor(item)"
@@ -91,7 +91,7 @@
             :key="subIndex"
           >
             <view
-              :class="[subItem.color === activeColor.color ? 'active-color' : 'default-color']"
+              :class="[subItem.id === activeColor.id ? 'active-color' : 'default-color']"
               :style="{ backgroundColor: subItem.color }"
               class="brand-carcolor-block brand-carcolor-all-item"
               @click="clickHotColor(subItem)"
@@ -172,7 +172,7 @@ export default {
       } else {
         this.collectBus[item.id] = item.isCollect
         this.isCollect = this.collectBus[item.id]
-        console.log(this.isCollect)
+        console.log(item)
       }
     },
     // 获取用户详情
