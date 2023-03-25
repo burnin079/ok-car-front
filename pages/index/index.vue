@@ -1,111 +1,119 @@
 <template>
-  <view class="home">
+  <view class="home-page">
     <view :style="{ height: $u.addUnit(h) }"></view>
-    <view class="relative">
-      <u-tabs
-        class="mgb-30"
-        lineHeight="0"
-        :list="brandList"
-        @click="clickBrand"
-        :activeStyle="{ color: '#1e2021', fontSize: '36rpx', fontWeight: 'blod' }"
-        :inactiveStyle="{ color: '#989ca0', fontSize: '24rpx' }"
-        :itemStyle="{ padding: '0 30rpx' }"
-      ></u-tabs>
-    </view>
-    <view class="brand-model mgb-20 relative">
-      <view class="brand-model-info">
-        <u--text :text="currentModel.name" size="26" color="#1c1d23" @click="show = true"></u--text>
-        <u-icon
-          class="mgl-10"
-          size="16"
-          name="arrow-down"
-          color="#1c1d23"
-          @click="show = true"
-        ></u-icon>
+    <view class="main">
+      <view class="relative">
+        <u-tabs
+          class="mgb-30"
+          lineHeight="0"
+          :list="brandList"
+          @click="clickBrand"
+          :activeStyle="{ color: '#1e2021', fontSize: '36rpx', fontWeight: 'blod' }"
+          :inactiveStyle="{ color: '#989ca0', fontSize: '24rpx' }"
+          :itemStyle="{ padding: '0 30rpx' }"
+        ></u-tabs>
       </view>
-      <view class="brand-model-control">
-        <u-icon
-          class="mgl-20"
-          :name="isCollect ? 'star-fill' : 'star'"
-          size="40"
-          :color="isCollect ? 'red' : '#313333'"
-          @click="clickCollect"
-        ></u-icon>
-        <u-icon
-          class="mgl-20"
-          name="share-square"
-          size="40"
-          color="#313333"
-          @click="clipboard"
-        ></u-icon>
+
+      <view class="brand-model mgb-20 relative">
+        <view class="brand-model-info">
+          <u--text
+            :text="currentModel.name"
+            size="26"
+            color="#1c1d23"
+            @click="show = true"
+          ></u--text>
+          <u-icon
+            class="mgl-10"
+            size="16"
+            name="arrow-down"
+            color="#1c1d23"
+            @click="show = true"
+          ></u-icon>
+        </view>
+        <view class="brand-model-control">
+          <u-icon
+            class="mgl-20"
+            :name="isCollect ? 'star-fill' : 'star'"
+            size="40"
+            :color="isCollect ? 'red' : '#313333'"
+            @click="clickCollect"
+          ></u-icon>
+          <u-icon
+            class="mgl-20"
+            name="share-square"
+            size="40"
+            color="#313333"
+            @click="clipboard"
+          ></u-icon>
+        </view>
       </view>
-    </view>
-    <view class="brand-carshow mgb-20">
-      <view class="brand-carshow-webview mgb-10">
+      <view class="brand-webview mgb-10" id="webviewContainer">
         <web-view :src="wvURL"></web-view>
       </view>
-      <view class="brand-carshow-current_color">
-        <u--text
-          :text="activeColor.name || '--'"
-          size="32"
-          color="#1c1d23"
-          align="center"
-          bold
-        ></u--text>
-        <u--text text="当前颜色" size="20" color="#a1a5a6" align="center"></u--text>
+      <view class="brand-carshow mgb-20">
+        <view class="brand-carshow-current_color">
+          <u--text
+            :text="activeColor.name || '--'"
+            size="32"
+            color="#1c1d23"
+            align="center"
+            bold
+          ></u--text>
+          <u--text text="当前颜色" size="20" color="#a1a5a6" align="center"></u--text>
+        </view>
       </view>
-    </view>
-    <view class="brand-carcolor-hot">
-      <u-scroll-list :indicator="false">
-        <div class="flex">
-          <view
-            v-for="(item, index) in hotList"
-            :key="index"
-            :class="[item.color === activeColor.color ? 'active-color' : 'default-color']"
-            :style="{ backgroundColor: item.color }"
-            class="brand-carcolor-hostlist brand-carcolor-block"
-            @click="clickHotColor(item)"
-          ></view>
-        </div>
-      </u-scroll-list>
-    </view>
-    <view class="brand-carcolor-all">
-      <view class="brand-carcolor-all-header mgb-20">
-        <u--text text="全部色彩" size="26" color="#1c1d23" bold></u--text>
-        <u--input
-          placeholder="色号/助记码"
-          prefixIcon="search"
-          :prefixIconStyle="{ fontSize: '40rpx' }"
-          border="none"
-          v-model="searchValue"
-          :customStyle="{ backgroundColor: '#f6f6f6', padding: '10rpx' }"
-          @confirm="search"
-        ></u--input>
-      </view>
-      <swiper :indicator-dots="true" class="swiper">
-        <swiper-item class="swiper-item" v-for="(item, index) in colorList" :key="index">
-          <view
-            :style="{ width: $u.addUnit(blockWidth, 'px'), height: '130rpx' }"
-            class="brand-carcolor-all-block"
-            v-for="(subItem, subIndex) in item"
-            :key="subIndex"
-          >
+      <view class="brand-carcolor-hot">
+        <u-scroll-list :indicator="false">
+          <div class="flex">
             <view
-              :class="[subItem.color === activeColor.color ? 'active-color' : 'default-color']"
-              :style="{ backgroundColor: subItem.color }"
-              class="brand-carcolor-block brand-carcolor-all-item"
-              @click="clickHotColor(subItem)"
+              v-for="(item, index) in hotList"
+              :key="index"
+              :class="[item.color === activeColor.color ? 'active-color' : 'default-color']"
+              :style="{ backgroundColor: item.color }"
+              class="brand-carcolor-hostlist brand-carcolor-block"
+              @click="clickHotColor(item)"
             ></view>
-            <u--text
-              :text="subItem.name"
-              size="16"
-              color="#1c1d23"
-              align="center"
-              lines="1"
-            ></u--text>
-          </view>
-        </swiper-item>
-      </swiper>
+          </div>
+        </u-scroll-list>
+      </view>
+      <view class="brand-carcolor-all">
+        <view class="brand-carcolor-all-header mgb-20">
+          <u--text text="全部色彩" size="26" color="#1c1d23" bold></u--text>
+          <u--input
+            placeholder="色号/助记码"
+            prefixIcon="search"
+            :prefixIconStyle="{ fontSize: '40rpx' }"
+            border="none"
+            v-model="searchValue"
+            :customStyle="{ backgroundColor: '#f6f6f6', padding: '10rpx' }"
+            @confirm="search"
+          ></u--input>
+        </view>
+        <swiper :indicator-dots="true" class="swiper">
+          <swiper-item class="swiper-item" v-for="(item, index) in colorList" :key="index">
+            <view
+              :style="{ width: $u.addUnit(blockWidth, 'px'), height: '130rpx' }"
+              class="brand-carcolor-all-block"
+              v-for="(subItem, subIndex) in item"
+              :key="subIndex"
+            >
+              <view
+                :class="[subItem.color === activeColor.color ? 'active-color' : 'default-color']"
+                :style="{ backgroundColor: subItem.color }"
+                class="brand-carcolor-block brand-carcolor-all-item"
+                @click="clickHotColor(subItem)"
+              ></view>
+              <u--text
+                :text="subItem.name"
+                size="16"
+                color="#1c1d23"
+                align="center"
+                lines="1"
+              ></u--text>
+            </view>
+          </swiper-item>
+        </swiper>
+      </view>
     </view>
     <u-picker
       closeOnClickOverlay
@@ -143,16 +151,15 @@ export default {
         'pause-circle',
         'wifi',
         'email',
-        'list'
+        'list',
       ],
       show: false,
       blockWidth: '',
       pageCount: 0,
       isCollect: 0,
-      collectBus: {}
+      collectBus: {},
     }
   },
-  onLoad() {},
   methods: {
     // 品牌选择
     clickBrand({ name, index }) {
@@ -223,13 +230,13 @@ export default {
       const { brandId, id, modelId } = this.activeColor
       if (this.collectBus[id]) {
         const result = await Api.cancelCollect({
-          colorId: id
+          colorId: id,
         })
       } else {
         const result = await Api.addCollect({
           brandId,
           modelId,
-          colorId: id
+          colorId: id,
         })
       }
       console.log(this.collectBus[id])
@@ -240,7 +247,7 @@ export default {
     async search() {
       const result = await Api.getColorList({
         modelId: this.currentModel.id,
-        search: this.searchValue
+        search: this.searchValue,
       })
       const total = Math.ceil(result.length / this.pageCount)
       const _temp = []
@@ -254,9 +261,9 @@ export default {
     async clipboard() {
       uni.setClipboardData({
         data: '123',
-        success: function () {}
+        success: function () {},
       })
-    }
+    },
   },
   onShow() {
     const { statusBarHeight, screenWidth, windowWidth } = uni.$u.sys()
@@ -268,18 +275,39 @@ export default {
     this.getBrandList()
   },
   onReady() {
+    console.log('onReady')
     // #ifdef APP-PLUS
     var currentWebview = this.$scope.$getAppWebview() //此对象相当于html5plus里的plus.webview.currentWebview()。在uni-app里vue页面直接使用plus.webview.currentWebview()无效
-    setTimeout(function () {
-      this.wv = currentWebview.children()[0]
-      this.wv.setStyle({ top: 130, height: 200 })
+    const wv = currentWebview.children()[0]
+    setTimeout(() => {
+      const query = uni.createSelectorQuery().in(this)
+      query
+        .select('#webviewContainer')
+        .boundingClientRect((data) => {
+          wv.setStyle({ top: data.top, height: data.height })
+        })
+        .exec()
     }, 1000) //如果是页面初始化调用时，需要延时一下
     // #endif
-  }
+  },
 }
 </script>
-
+<style lang="scss">
+page {
+  height: 100%;
+}
+</style>
 <style lang="scss" scoped>
+.home-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+.main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
 .brand-model {
   @include flex;
   justify-content: space-between;
@@ -295,15 +323,15 @@ export default {
     @include flex;
   }
 }
+.brand-webview {
+  flex: 1;
+}
+
 .brand-carshow {
   box-sizing: border-box;
   @include flex(column);
   align-items: center;
   padding: 0 30rpx;
-
-  .brand-carshow-webview {
-    height: 230px;
-  }
 
   .brand-carshow-current_color {
     flex: 1;
