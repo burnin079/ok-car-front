@@ -50,17 +50,15 @@
       <view class="brand-webview mgb-10" id="webviewContainer">
         <web-view :src="wvURL"></web-view>
       </view>
-      <view class="brand-carshow mgb-20">
-        <view class="brand-carshow-current_color">
-          <u--text
-            :text="activeColor.name || '--'"
-            size="32"
-            color="#1c1d23"
-            align="center"
-            bold
-          ></u--text>
-          <u--text text="当前颜色" size="20" color="#a1a5a6" align="center"></u--text>
-        </view>
+      <view class="brand-carshow-current_color">
+        <u--text
+          :text="activeColor.name || '--'"
+          size="32"
+          color="#1c1d23"
+          align="center"
+          bold
+        ></u--text>
+        <u--text text="当前颜色" size="20" color="#a1a5a6" align="center"></u--text>
       </view>
       <view class="brand-carcolor-hot">
         <u-scroll-list :indicator="false">
@@ -68,7 +66,7 @@
             <view
               v-for="(item, index) in hotList"
               :key="index"
-              :class="[item.color === activeColor.color ? 'active-color' : 'default-color']"
+              :class="[item.id === activeColor.id ? 'active-color' : 'default-color']"
               :style="{ backgroundColor: item.color }"
               class="brand-carcolor-hostlist brand-carcolor-block"
               @click="clickHotColor(item)"
@@ -98,7 +96,7 @@
               :key="subIndex"
             >
               <view
-                :class="[subItem.color === activeColor.color ? 'active-color' : 'default-color']"
+                :class="[subItem.id === activeColor.id ? 'active-color' : 'default-color']"
                 :style="{ backgroundColor: subItem.color }"
                 class="brand-carcolor-block brand-carcolor-all-item"
                 @click="clickHotColor(subItem)"
@@ -115,6 +113,7 @@
         </swiper>
       </view>
     </view>
+
     <u-picker
       closeOnClickOverlay
       keyName="name"
@@ -179,7 +178,7 @@ export default {
       } else {
         this.collectBus[item.id] = item.isCollect
         this.isCollect = this.collectBus[item.id]
-        console.log(this.isCollect)
+        console.log(item)
       }
     },
     // 获取用户详情
