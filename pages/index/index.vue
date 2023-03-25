@@ -320,9 +320,6 @@ export default {
 .brand-carcolor-all-block {
   @include flex(column);
   align-items: center;
-
-  .brand-carcolor-all-item {
-  }
 }
 
 .brand-carcolor-block {

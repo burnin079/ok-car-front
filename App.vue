@@ -4,7 +4,7 @@ export default {
     console.log('App Launch')
 
     const token = uni.getStorageSync('token')
-    if (token) {
+    if (!token) {
       this._redirectTo('pages/login/login')
     }
   },

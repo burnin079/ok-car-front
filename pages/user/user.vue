@@ -78,8 +78,9 @@ export default {
   methods: {
     // 登出
     logout() {
+      Api.logout()
       this.redirectTo('pages/login/login')
-      uni.removeStorageSync('token')
+      uni.clearStorage()
     },
     // 点击
     clickCell(item) {

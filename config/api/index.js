@@ -21,9 +21,10 @@ export default {
   getColorList: (params) => request.get('/car/color/list', { params }),
   // 添加收藏
   addCollect: (data) => request.post('/collect/add', data),
-  // 确认用户是否收藏
+  // 取消收藏
   cancelCollect: (params) => request.get('/collect/del', { params }),
   // 获取收藏列表
-  getCollectList: (params) => request.get('/collect/list', params)
-  // 取消收藏
+  getCollectList: (params) => request.get('/collect/list', params),
+  // 退出登录
+  logout: (params) => request.get('/user/logout', params)
 }
