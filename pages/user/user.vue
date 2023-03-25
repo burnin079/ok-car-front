@@ -3,14 +3,14 @@
     <w-header :h="h">
       <view class="user">
         <view class="user-card mgb-30">
-          <u-avatar src="" size="100"></u-avatar>
+          <u-avatar :src="userInfo.avatar" size="100"></u-avatar>
           <view class="user-card-info">
             <view class="user-card-info-title">
               <view class="user-card-info-name mgb-5">
-                <u--text :text="userInfo.name" size="32" color="#202127" bold></u--text>
+                <u--text :text="userInfo.nickname" size="32" color="#202127" bold></u--text>
               </view>
               <view class="user-card-info-type">
-                <u--text mode="phone" :text="userInfo.phone" size="22" format="encrypt"></u--text>
+                <u--text mode="phone" :text="userInfo.tel" size="22" format="encrypt"></u--text>
               </view>
             </view>
             <view>
@@ -49,14 +49,13 @@
 
 <script>
 import telphone from '@/utils/telphone.js'
+import Api from '@/config/api/index'
+
 export default {
   data() {
     return {
       h: '',
-      userInfo: {
-        name: '番薯',
-        phone: '188888888888'
-      },
+      userInfo: {},
       cellList: [
         {
           icon: 'star',
@@ -92,27 +91,30 @@ export default {
           this._navigateTo('pages/user/setting/setting')
           break
         case 'phone':
-          telphone('10086')
+          telphone(userInfo.tel)
           break
       }
     },
     // 图片上传
     async afterRead({ file }) {
       uni.showLoading({ title: '图片上传中...' })
-      // file.map(async ( item) => {
-      //   const result = await Api.imageUpload({
-      //     filePath: item.url,
-      //     name: 'file'
-      //   })
-      //   this.fileList5.push({ url: result.fileWebsite })
-      //   this.uploadList.push(result)
-      // })
+      console.log(file)
+      const result = await Api.uploadFile({
+        filePath: file.url,
+        name: 'file'
+      })
+      console.log(result)
+      this.userInfo.avatar = 'http://8.142.135.242:9000/' + result
       uni.hideLoading()
     }
   },
   onShow() {
     const { statusBarHeight } = uni.$u.sys()
     this.h = statusBarHeight + 48
+  },
+  onLoad() {
+    this.userInfo = JSON.parse(uni.getStorageSync('userInfo'))
+    console.log(this.userInfo)
   }
 }
 </script>

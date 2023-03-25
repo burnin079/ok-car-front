@@ -1,6 +1,6 @@
 module.exports = (vm) => {
   uni.$u.http.setConfig(() => ({
-    baseURL: '',
+    baseURL: 'http://8.142.135.242:9000',
 
     header: {},
     timeout: 5000
@@ -26,15 +26,19 @@ module.exports = (vm) => {
   uni.$u.http.interceptors.response.use(
     (response) => {
       const { data } = response
-      uni.showToast({
-        icon: 'none',
-        title: data.message,
-        duration: 3000
-      })
-      throw new Error(data.message)
+      console.log(response)
+      if (data.code) {
+        uni.showToast({
+          icon: 'none',
+          title: data.msg,
+          duration: 3000
+        })
+        throw new Error(data.msg)
+      }
       return data.data
     },
     (error) => {
+      console.log(error)
       if (error && error.statusCode) {
         switch (statusCode) {
           case 401:
@@ -77,6 +81,7 @@ module.exports = (vm) => {
             error.message = `连接出错（${error.statusCode}）`
         }
       } else {
+        console.log(error)
         error.message = '连接服务器失败'
       }
       error.message &&

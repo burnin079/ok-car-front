@@ -14,26 +14,44 @@
     </view>
     <view class="brand-model mgb-20 relative">
       <view class="brand-model-info">
-        <u--text text="Model 3" size="26" color="#1c1d23" @click="modelClick"></u--text>
+        <u--text :text="currentModel.name" size="26" color="#1c1d23" @click="show = true"></u--text>
         <u-icon
           class="mgl-10"
           size="16"
           name="arrow-down"
           color="#1c1d23"
-          @click="modelClick"
+          @click="show = true"
         ></u-icon>
       </view>
       <view class="brand-model-control">
-        <u-icon class="mgl-20" name="star" size="40" color="#313333"></u-icon>
-        <u-icon class="mgl-20" name="share-square" size="40" color="#313333"></u-icon>
+        <u-icon
+          class="mgl-20"
+          :name="isCollect ? 'star-fill' : 'star'"
+          size="40"
+          :color="isCollect ? 'red' : '#313333'"
+          @click="clickCollect"
+        ></u-icon>
+        <u-icon
+          class="mgl-20"
+          name="share-square"
+          size="40"
+          color="#313333"
+          @click="clipboard"
+        ></u-icon>
       </view>
     </view>
-    <view class="brand-carshow">
-      <view class="brand-carshow-webview mgb-20">
+    <view class="brand-carshow mgb-20">
+      <view class="brand-carshow-webview mgb-10">
         <web-view :src="wvURL"></web-view>
       </view>
       <view class="brand-carshow-current_color">
-        <u--text text="千山翠" size="32" color="#1c1d23" align="center" bold></u--text>
+        <u--text
+          :text="activeColor.name || '--'"
+          size="32"
+          color="#1c1d23"
+          align="center"
+          bold
+        ></u--text>
         <u--text text="当前颜色" size="20" color="#a1a5a6" align="center"></u--text>
       </view>
     </view>
@@ -43,16 +61,16 @@
           <view
             v-for="(item, index) in hotList"
             :key="index"
-            :class="[item === activeColor ? 'active-color' : 'default-color']"
-            :style="{ backgroundColor: item }"
-            class="brand-carcolor-hostlist"
+            :class="[item.color === activeColor.color ? 'active-color' : 'default-color']"
+            :style="{ backgroundColor: item.color }"
+            class="brand-carcolor-hostlist brand-carcolor-block"
             @click="clickHotColor(item)"
           ></view>
         </div>
       </u-scroll-list>
     </view>
     <view class="brand-carcolor-all">
-      <view class="brand-carcolor-all-header">
+      <view class="brand-carcolor-all-header mgb-20">
         <u--text text="全部色彩" size="26" color="#1c1d23" bold></u--text>
         <u--input
           placeholder="色号/助记码"
@@ -61,48 +79,193 @@
           border="none"
           v-model="searchValue"
           :customStyle="{ backgroundColor: '#f6f6f6', padding: '10rpx' }"
+          @confirm="search"
         ></u--input>
       </view>
+      <swiper :indicator-dots="true" class="swiper">
+        <swiper-item class="swiper-item" v-for="(item, index) in colorList" :key="index">
+          <view
+            :style="{ width: $u.addUnit(blockWidth, 'px'), height: '130rpx' }"
+            class="brand-carcolor-all-block"
+            v-for="(subItem, subIndex) in item"
+            :key="subIndex"
+          >
+            <view
+              :class="[subItem.color === activeColor.color ? 'active-color' : 'default-color']"
+              :style="{ backgroundColor: subItem.color }"
+              class="brand-carcolor-block brand-carcolor-all-item"
+              @click="clickHotColor(subItem)"
+            ></view>
+            <u--text
+              :text="subItem.name"
+              size="16"
+              color="#1c1d23"
+              align="center"
+              lines="1"
+            ></u--text>
+          </view>
+        </swiper-item>
+      </swiper>
     </view>
+    <u-picker
+      closeOnClickOverlay
+      keyName="name"
+      :show="show"
+      :columns="modelList"
+      @confirm="modelClick"
+      @cancel="show = false"
+    ></u-picker>
   </view>
 </template>
 
 <script>
+import Api from '@/config/api/index'
 export default {
   data() {
     return {
       h: '',
-      brandList: [
-        { name: '特斯拉' },
-        { name: '比亚迪' },
-        { name: '蔚来' },
-        { name: '理想' },
-        { name: '小鹏' }
-      ],
-      hotList: ['#111111', '#999999', 'green', 'greenyellow', 'grey', 'blue', 'red'],
-      activeColor: '#111111',
+      brandList: [],
+      modelList: [],
+      currentModel: {},
+      hotList: [],
+      colorList: [],
+      allColorList: [],
+      activeColor: {},
       searchValue: '',
       wv: '',
-      wvURL: 'https://pano275.p.kujiale.com/xiaoguotu/pano/3FOEBXO63YMD'
+      wvURL: 'https://pano275.p.kujiale.com/xiaoguotu/pano/3FOEBXO63YMD',
+      swiperList: [
+        'integral',
+        'kefu-ermai',
+        'coupon',
+        'gift',
+        'scan',
+        'pause-circle',
+        'wifi',
+        'email',
+        'list'
+      ],
+      show: false,
+      blockWidth: '',
+      pageCount: 0,
+      isCollect: 0,
+      collectBus: {}
     }
   },
   onLoad() {},
   methods: {
+    // 品牌选择
     clickBrand({ name, index }) {
-      console.log(name, index)
-      this.wvURL = 'https://www.baidu.com'
+      this.getBrandModelList(this.brandList[index].id)
     },
-    modelClick() {
-      this.wvURL = 'https://www.baidu.com'
-      console.log(this.wvURL)
+    // 型号选择
+    async modelClick({ index, value }) {
+      this.currentModel = value[0]
+      await this.getHotColorList()
+      await this.getColorList()
+      this.show = false
     },
     clickHotColor(item) {
       this.activeColor = item
+      if (typeof this.collectBus[item.id] !== 'undefined') {
+        this.isCollect = this.collectBus[item.id]
+      } else {
+        this.collectBus[item.id] = item.isCollect
+        this.isCollect = this.collectBus[item.id]
+        console.log(this.isCollect)
+      }
+    },
+    // 获取用户详情
+    async getUserInfo() {
+      const result = await Api.getUserInfo()
+      uni.setStorageSync('userInfo', JSON.stringify(result))
+    },
+    // 获取品牌列表
+    async getBrandList() {
+      const result = await Api.getBrandList()
+      this.brandList = result
+      this.getBrandModelList(result[0].id)
+    },
+    // 获取型号列表
+    async getBrandModelList(id) {
+      const result = await Api.getBrandModelList({ brandId: id })
+      console.log(result)
+      this.currentModel = result[0]
+      this.modelList = [result]
+      await this.getHotColorList()
+      await this.getColorList()
+    },
+    // 获取热门颜色列表
+    async getHotColorList() {
+      const result = await Api.getHotColorList({ modelId: this.currentModel.id })
+      this.hotList = result
+      this.activeColor = result[0] || []
+      console.log(this.activeColor)
+
+      this.collectBus[this.activeColor.id] = this.activeColor.isCollect
+      this.isCollect = this.activeColor.isCollect
+      console.log(this.collectBus)
+    },
+    // 获取颜色列表
+    async getColorList() {
+      const result = await Api.getColorList({ modelId: this.currentModel.id })
+      const total = Math.ceil(result.length / this.pageCount)
+      this.allColorList = uni.$u.deepClone(result)
+      const _temp = []
+      for (let i = 0; i < total; i++) {
+        _temp.push(result.splice(0, this.pageCount))
+      }
+      console.log(_temp)
+      this.colorList = _temp
+    },
+    // 收藏
+    async clickCollect() {
+      const { brandId, id, modelId } = this.activeColor
+      if (this.collectBus[id]) {
+        const result = await Api.cancelCollect({
+          colorId: id
+        })
+      } else {
+        const result = await Api.addCollect({
+          brandId,
+          modelId,
+          colorId: id
+        })
+      }
+      console.log(this.collectBus[id])
+      this.collectBus[id] = !this.collectBus[id]
+      this.isCollect = this.collectBus[id]
+    },
+    // 搜索
+    async search() {
+      const result = await Api.getColorList({
+        modelId: this.currentModel.id,
+        search: this.searchValue
+      })
+      const total = Math.ceil(result.length / this.pageCount)
+      const _temp = []
+      for (let i = 0; i < total; i++) {
+        _temp.push(result.splice(0, this.pageCount))
+      }
+      console.log(_temp)
+      this.colorList = _temp
+    },
+    // 设置粘贴板
+    async clipboard() {
+      uni.setClipboardData({
+        data: '123',
+        success: function () {}
+      })
     }
   },
   onShow() {
-    const { statusBarHeight } = uni.$u.sys()
+    const { statusBarHeight, screenWidth, windowWidth } = uni.$u.sys()
     this.h = statusBarHeight + 48
+    const count = parseInt((screenWidth - uni.$u.getPx('60rpx')) / uni.$u.getPx('135rpx'))
+    this.pageCount = count * 3
+    this.blockWidth = parseInt((screenWidth - uni.$u.getPx('60rpx')) / count)
+    this.getUserInfo()
+    this.getBrandList()
   },
   onReady() {
     // #ifdef APP-PLUS
@@ -139,7 +302,7 @@ export default {
   padding: 0 30rpx;
 
   .brand-carshow-webview {
-    height: 300rpx;
+    height: 230px;
   }
 
   .brand-carshow-current_color {
@@ -152,18 +315,20 @@ export default {
 
 .brand-carcolor-hot {
   padding: 0 30rpx;
+}
 
-  .brand-carcolor-hostlist {
-    width: 120rpx;
-    height: 120rpx;
-    border-radius: 50%;
-    transform: scale(0.5);
-    transform-origin: 0% center;
+.brand-carcolor-all-block {
+  @include flex(column);
+  align-items: center;
 
-    &:nth-child(n + 2) {
-      margin-left: -40rpx;
-    }
+  .brand-carcolor-all-item {
   }
+}
+
+.brand-carcolor-block {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
 }
 .active-color {
   border: 20rpx solid #e9e9e8;
@@ -179,6 +344,16 @@ export default {
   .brand-carcolor-all-header {
     @include flex;
     align-content: center;
+  }
+}
+
+.swiper {
+  height: 460rpx;
+
+  .swiper-item {
+    @include flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
   }
 }
 
