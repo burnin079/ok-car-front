@@ -3,13 +3,7 @@
     <view class="star-btn">
       <u-button type="info" shape="circle" text="跳过广告" @click="toAnother"></u-button>
     </view>
-    <u-swiper
-      imgMode="AspectFit"
-      :height="$u.addUnit(h, 'px')"
-      :list="list1"
-      @change="change"
-      @click="click"
-    ></u-swiper>
+    <u-swiper imgMode="AspectFit" :height="$u.addUnit(h, 'px')" :list="list1"></u-swiper>
   </view>
 </template>
 
@@ -22,12 +16,13 @@ export default {
         'https://cdn.uviewui.com/uview/swiper/swiper2.png',
         'https://cdn.uviewui.com/uview/swiper/swiper3.png'
       ],
-      h: ''
+      h: '',
+      meter: ''
     }
   },
   methods: {
     timing() {
-      setTimeout(() => {
+      this.meter = setTimeout(() => {
         this.toAnother()
       }, 3000)
     },
@@ -46,6 +41,10 @@ export default {
   onLoad() {
     const { screenHeight } = uni.$u.sys()
     this.h = screenHeight
+  },
+  onUnload() {
+    console.log(this.meter)
+    clearTimeout(this.meter)
   }
 }
 </script>
