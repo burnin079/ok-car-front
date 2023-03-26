@@ -3,7 +3,7 @@ module.exports = (vm) => {
     baseURL: 'http://8.142.135.242:9000',
 
     header: {},
-    timeout: 5000
+    timeout: 10000
   }))
 
   // 请求拦截

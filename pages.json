@@ -4,7 +4,13 @@
     "^w-(.*)": "@/components/w-$1/w-$1.vue"
   },
   "pages": [
-   
+    {
+      "path": "pages/star/star",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false
+      }
+    },
     {
       "path": "pages/index/index",
       "style": {
@@ -12,13 +18,13 @@
         "enablePullDownRefresh": false
       }
     },
-	{
-	  "path": "pages/login/login",
-	  "style": {
-	    "navigationStyle": "custom",
-	    "enablePullDownRefresh": false
-	  }
-	},
+    {
+      "path": "pages/login/login",
+      "style": {
+        "navigationStyle": "custom",
+        "enablePullDownRefresh": false
+      }
+    },
     {
       "path": "pages/collect/collect",
       "style": {

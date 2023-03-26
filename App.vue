@@ -2,11 +2,6 @@
 export default {
   onLaunch: function () {
     console.log('App Launch')
-
-    const token = uni.getStorageSync('token')
-    if (!token) {
-      this._redirectTo('pages/login/login')
-    }
   },
   onShow: function () {
     console.log('App Show')

@@ -79,7 +79,7 @@ export default {
     // 登出
     logout() {
       Api.logout()
-      this.redirectTo('pages/login/login')
+      this._redirectTo('pages/login/login')
       uni.clearStorage()
     },
     // 点击
