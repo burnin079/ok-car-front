@@ -28,5 +28,7 @@ export default {
   // 退出登录
   logout: (params) => request.get('/user/logout', params),
   // app设置
-  getAppConfig: (params) => request.get('/app/config', params)
+  getAppConfig: (params) => request.get('/app/config', params),
+  // 启动页广告
+  getAppAdv: (params) => request.get('/app/adv', params)
 }

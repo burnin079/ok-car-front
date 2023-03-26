@@ -27,13 +27,7 @@ export default {
   data() {
     return {
       h: '',
-      carList: [
-        {
-          logo: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F62666719-6287-41b0-becd-9363f35544e2%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1682151818&t=221e6c8d498486b927e389639ae6d75b',
-          carName: 'Tesla Model 3',
-          carType: '千山翠'
-        }
-      ]
+      carList: []
     }
   },
   methods: {

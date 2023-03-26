@@ -8,19 +8,20 @@
 </template>
 
 <script>
+import Api from '@/config/api/index'
 export default {
   data() {
     return {
-      list1: [
-        'https://img2.baidu.com/it/u=3118936755,4035709499&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=666',
-        'https://cdn.uviewui.com/uview/swiper/swiper2.png',
-        'https://cdn.uviewui.com/uview/swiper/swiper3.png'
-      ],
+      list1: [],
       h: '',
       meter: ''
     }
   },
   methods: {
+    async getAppAdv() {
+      const result = await Api.getAppAdv()
+      this.list1 = result
+    },
     timing() {
       this.meter = setTimeout(() => {
         this.toAnother()
@@ -41,6 +42,7 @@ export default {
   onLoad() {
     const { screenHeight } = uni.$u.sys()
     this.h = screenHeight
+    this.getAppAdv()
   },
   onUnload() {
     console.log(this.meter)
