@@ -45,6 +45,13 @@
         "navigationBarTitleText": "设置",
         "enablePullDownRefresh": false
       }
+    },
+    {
+      "path": "pages/collect/carshow/carshow",
+      "style": {
+        "navigationBarTitleText": "展示",
+        "enablePullDownRefresh": false
+      }
     }
   ],
   "globalStyle": {

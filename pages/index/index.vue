@@ -48,7 +48,7 @@
         </view>
       </view>
       <view class="brand-webview mgb-10" id="webviewContainer">
-        <web-view :src="wvURL"></web-view>
+        <web-view :src="activeColor.url"></web-view>
       </view>
       <view class="brand-carshow-current_color">
         <u--text
@@ -140,7 +140,6 @@ export default {
       activeColor: {},
       searchValue: '',
       wv: '',
-      wvURL: 'https://pano275.p.kujiale.com/xiaoguotu/pano/3FOEBXO63YMD',
       swiperList: [
         'integral',
         'kefu-ermai',
@@ -171,6 +170,7 @@ export default {
       await this.getColorList()
       this.show = false
     },
+    // 颜色选择
     clickHotColor(item) {
       this.activeColor = item
       if (typeof this.collectBus[item.id] !== 'undefined') {
@@ -259,7 +259,7 @@ export default {
     // 设置粘贴板
     async clipboard() {
       uni.setClipboardData({
-        data: '123',
+        data: activeColor.url,
         success: function () {}
       })
     },
@@ -287,7 +287,7 @@ export default {
       query
         .select('#webviewContainer')
         .boundingClientRect((data) => {
-          wv.setStyle({ top: data.top, height: data.height })
+          wv.setStyle({ top: data.top, height: data.height, scalable: true })
         })
         .exec()
     }, 1000) //如果是页面初始化调用时，需要延时一下

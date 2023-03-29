@@ -3,7 +3,13 @@
     <view class="star-btn">
       <u-button type="info" shape="circle" text="跳过广告" @click="toAnother"></u-button>
     </view>
-    <u-swiper imgMode="AspectFit" :height="$u.addUnit(h, 'px')" :list="list1"></u-swiper>
+    <u-swiper
+      imgMode="AspectFit"
+      :height="$u.addUnit(h, 'px')"
+      :list="list1"
+      keyName="url"
+      interval="1500"
+    ></u-swiper>
   </view>
 </template>
 

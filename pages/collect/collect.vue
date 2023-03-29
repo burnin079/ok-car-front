@@ -13,7 +13,7 @@
             </view>
           </view>
           <view>
-            <u-icon name="play-circle" size="60"></u-icon>
+            <u-icon name="play-circle" size="60" @click="carShow(item)"></u-icon>
           </view>
         </view>
       </view>
@@ -35,6 +35,10 @@ export default {
       const result = await Api.getCollectList()
       this.carList = result
       console.log(result)
+    },
+    carShow(item) {
+      console.log(item)
+      this._navigateTo('pages/collect/carshow/carshow', item)
     }
   },
   onShow() {
