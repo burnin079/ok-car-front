@@ -3,7 +3,7 @@
     <w-header :h="h">
       <view class="user">
         <view class="user-card mgb-30">
-          <u-avatar :src="userInfo.avatar" size="100"></u-avatar>
+          <u-avatar :src="'http://8.142.135.242:9000/' + userInfo.avatar" size="100"></u-avatar>
           <view class="user-card-info">
             <view class="user-card-info-title">
               <view class="user-card-info-name mgb-5">
