@@ -92,7 +92,7 @@ export default {
           this._navigateTo('pages/user/setting/setting')
           break
         case 'phone':
-          telphone(userInfo.tel)
+          telphone(15757115639)
           break
       }
     },
