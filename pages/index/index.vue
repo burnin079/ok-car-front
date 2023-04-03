@@ -260,7 +260,9 @@ export default {
     async clipboard() {
       uni.setClipboardData({
         data: activeColor.url,
-        success: function () {}
+        success: function () {
+          this._showToast('复制成功')
+        }
       })
     },
     async getAppConfig() {
