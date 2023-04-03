@@ -105,15 +105,13 @@ export default {
         filePath: file.url,
         name: 'file'
       })
-	  this.$set(this.userInfo, 'avatar', result)
-      this.userInfo.avatar = result
-	  console.log(this.imgUrl + this.userInfo.avatar);
-	  const res = await Api.updateAvatar(this.userInfo)
-	  uni.hideLoading()
-	  !res && uni.showToast({
-	  	title: '修改失败',
-		icon: 'error'
-	  })
+	    this.$set(this.userInfo, 'avatar', result)
+	    const res = await Api.updateAvatar(this.userInfo)
+	    uni.hideLoading()
+	    !res && uni.showToast({
+	  	  title: '修改失败',
+		    icon: 'error'
+	    })
     }
   },
   onShow() {
