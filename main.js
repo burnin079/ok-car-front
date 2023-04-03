@@ -5,6 +5,7 @@ import routeGuard from './utils/routeGuard'
 
 // #ifndef VUE3
 import Vue from 'vue'
+import request from 'config/request.js'
 
 Vue.use(uView)
 Vue.mixin(tools)
@@ -17,7 +18,7 @@ const app = new Vue({
 })
 uni.$u.config.unit = 'rpx'
 
-require('config/request.js')(app)
+request(app)
 
 app.$mount()
 // #endif

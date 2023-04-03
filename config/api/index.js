@@ -8,9 +8,9 @@ export default {
   // 获取用户信息
   getUserInfo: (params) => request.get('/user/info', params),
   // 更新用户头像
-  updateAvatar: (params) => request.get('/user/update', params),
+  updateAvatar: (params) => request.post('/user/update', params),
   // 上传文件
-  uploadFile: (data) => request.upload('/common/uploadFile', data),
+  uploadFile: (data) => request.upload('/common/upload', data),
   // 获取车辆品牌列表
   getBrandList: (params) => request.get('/car/brand/list', params),
   // 获取车辆型号

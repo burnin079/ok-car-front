@@ -1,7 +1,10 @@
-module.exports = (vm) => {
-  uni.$u.http.setConfig(() => ({
-    baseURL: 'http://8.142.135.242:9000',
+// export const baseURL = 'http://192.168.31.224:9000'
+export const baseURL = 'http://8.142.135.242:9000'
+export const imgUrl = 'http://yike.xinyunweb.com/prod-api'
 
+const request = (vm) => {
+  uni.$u.http.setConfig(() => ({
+    baseURL,
     header: {},
     timeout: 10000
   }))
@@ -149,3 +152,5 @@ module.exports = (vm) => {
     }
   )
 }
+
+export default request

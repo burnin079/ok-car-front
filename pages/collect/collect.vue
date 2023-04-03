@@ -2,7 +2,7 @@
   <w-page>
     <w-header :h="h">
       <view class="car-card mgb-30" v-for="(item, index) in carList" :key="index">
-        <image class="logo" :src="item.brandIcon" mode="" />
+        <image class="logo" :src="imgUrl + item.brandIcon" mode="" />
         <view class="car-brand">
           <view class="car-brand-info">
             <view class="car-brand-title mgb-5">
@@ -23,9 +23,11 @@
 
 <script>
 import Api from '@/config/api/index'
+import { imgUrl } from '@/config/request.js'
 export default {
   data() {
     return {
+		imgUrl,
       h: '',
       carList: []
     }

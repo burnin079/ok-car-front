@@ -3,7 +3,7 @@
     <w-header :h="h">
       <view class="user">
         <view class="user-card mgb-30">
-          <u-avatar :src="'http://8.142.135.242:9000/' + userInfo.avatar" size="100"></u-avatar>
+          <u-avatar :src="imgUrl + userInfo.avatar" size="100"></u-avatar>
           <view class="user-card-info">
             <view class="user-card-info-title">
               <view class="user-card-info-name mgb-5">
@@ -50,10 +50,12 @@
 <script>
 import telphone from '@/utils/telphone.js'
 import Api from '@/config/api/index'
+import { imgUrl } from '../../config/request.js'
 
 export default {
   data() {
     return {
+	  imgUrl,
       h: '',
       userInfo: {},
       cellList: [
@@ -99,14 +101,19 @@ export default {
     // 图片上传
     async afterRead({ file }) {
       uni.showLoading({ title: '图片上传中...' })
-      console.log(file)
       const result = await Api.uploadFile({
         filePath: file.url,
         name: 'file'
       })
-      console.log(result)
-      this.userInfo.avatar = 'http://8.142.135.242:9000/' + result
-      uni.hideLoading()
+	  this.$set(this.userInfo, 'avatar', result)
+      this.userInfo.avatar = result
+	  console.log(this.imgUrl + this.userInfo.avatar);
+	  const res = await Api.updateAvatar(this.userInfo)
+	  uni.hideLoading()
+	  !res && uni.showToast({
+	  	title: '修改失败',
+		icon: 'error'
+	  })
     }
   },
   onShow() {
