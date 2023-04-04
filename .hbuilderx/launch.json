@@ -22,7 +22,7 @@
         },
         {
             "openVueDevtools" : true,
-            "playground" : "custom",
+            "playground" : "standard",
             "type" : "uni-app:app-android"
         }
     ]

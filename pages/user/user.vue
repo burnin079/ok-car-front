@@ -94,9 +94,10 @@ export default {
           this._navigateTo('pages/user/setting/setting')
           break
         case 'phone':
-          console.log(telphone)
-          telphone('15757115639')
-          break
+          uni.makePhoneCall({
+            phoneNumber: '15757115639'
+          })
+			    break
       }
     },
     // 图片上传
