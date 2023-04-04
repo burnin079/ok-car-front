@@ -15,6 +15,8 @@
 
 <script>
 import Api from '@/config/api/index'
+import { imgUrl } from '../../config/request.js'
+
 export default {
   data() {
     return {
@@ -26,7 +28,10 @@ export default {
   methods: {
     async getAppAdv() {
       const result = await Api.getAppAdv()
-      this.list1 = result
+      this.list1 = result.map((item) => {
+        item.url = imgUrl + item.url
+        return item
+      })
     },
     timing() {
       this.meter = setTimeout(() => {

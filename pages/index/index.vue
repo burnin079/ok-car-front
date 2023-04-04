@@ -259,8 +259,8 @@ export default {
     // 设置粘贴板
     async clipboard() {
       uni.setClipboardData({
-        data: activeColor.url,
-        success: function () {
+        data: this.activeColor.url,
+        success: () => {
           this._showToast('复制成功')
         }
       })

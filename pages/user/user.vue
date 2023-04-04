@@ -55,7 +55,7 @@ import { imgUrl } from '../../config/request.js'
 export default {
   data() {
     return {
-	  imgUrl,
+      imgUrl,
       h: '',
       userInfo: {},
       cellList: [
@@ -94,7 +94,8 @@ export default {
           this._navigateTo('pages/user/setting/setting')
           break
         case 'phone':
-          telphone(15757115639)
+          console.log(telphone)
+          telphone('15757115639')
           break
       }
     },
@@ -105,13 +106,14 @@ export default {
         filePath: file.url,
         name: 'file'
       })
-	    this.$set(this.userInfo, 'avatar', result)
-	    const res = await Api.updateAvatar(this.userInfo)
-	    uni.hideLoading()
-	    !res && uni.showToast({
-	  	  title: '修改失败',
-		    icon: 'error'
-	    })
+      this.$set(this.userInfo, 'avatar', result)
+      const res = await Api.updateAvatar(this.userInfo)
+      uni.hideLoading()
+      !res &&
+        uni.showToast({
+          title: '修改失败',
+          icon: 'error'
+        })
     }
   },
   onShow() {
